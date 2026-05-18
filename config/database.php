@@ -104,7 +104,6 @@
         $pw=password_hash('admin1', PASSWORD_DEFAULT);
         mysqli_query($conn, "INSERT INTO users(id,name,email,password_hash,userRole) VALUES(1,'RAISA','rr.anwar385@gmail.com',$pw,1");
     }
-    return $conn;
 ?>
     
 
