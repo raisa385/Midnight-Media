@@ -45,6 +45,16 @@
                     message.style.display='block';
                     return;
                 }
+
+                const emailpattern = document.createElement('emailpattern');
+                emailpattern.type='email';
+                emailpattern.value=email;
+                if(emailpattern.checkValidity()==false){
+                    event.preventDefault();
+                    message.innerText="Please enter a valid email ";
+                    message.style.display='block';
+                    return;
+                }  
                 message.style.display='none';
             }
         </script>

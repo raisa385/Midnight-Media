@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,19 +12,17 @@
         <h2>Sign In</h2>
         <?php if(isset($_SESSION['flash_msg'])):?>
         <p style="color:red;"><?=htmlspecialchars($_SESSION['flash_msg']);?></p>
+        <?php unset($_SESSION['flash_msg']); ?>
         <?php endif;?>
 
-        <form action="/controlRegister.php" method="POST">
-            <input type="text" name="name" placeholder="Name" required><br>
+        <form id="loginForm" action="../controlLogin.php" method="POST">
             <input type="email" name="email" placeholder="Email" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
-            <label for="role">Choose your role</label>
-            <select id="userRole" name="userRole">
-                <option value="Admin">Apply for Admin Role</option>
-                <option value="Moderator">Apply for Moderator Role</option>
-            </select>
-            <button type="submit">Submit</button>
+            <label>
+                <input type="checkbox" name="remember" value="checked">Remember me
+            </label><br>
+        <button type="submit">Submit</button>
         </form>
-        <p>Already registered? <a href="viewLogin.php">Login here</a></p>
+        <p>New? <a href="viewRegister.php">Register here</a></p>
     </body>
 </html>

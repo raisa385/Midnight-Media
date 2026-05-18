@@ -10,7 +10,7 @@
         $userRole=$_POST['userRole'];
 
         $result=checkEmail($conn, $email);
-        if($result===false){
+        if($result!=0){//row returned so email already exists
             $_SESSION['flash_msg'] = "Email already in use. Try another.";
             header("Location: ../views/viewRegister.php");
             exit();
@@ -22,7 +22,7 @@
             header("Location: ../views/viewRegister.php");
             exit();
         }
-        
+
         $_SESSION['flash_msg'] = "Registration successful. Redirecting...";
         header("Location: ../views/viewLogin.php");
     }
