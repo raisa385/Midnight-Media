@@ -11,7 +11,7 @@
     else{die("Error selecting db: ".$conn->error);}
 
     $sql = "CREATE TABLE users(
-            id VARCHAR(255) NOT NULL,
+            id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL UNIQUE,
             password_hash VARCHAR(255) NOT NULL,
             userRole ENUM('admin','moderator'),
