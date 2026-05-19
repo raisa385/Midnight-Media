@@ -1,5 +1,8 @@
 <?php
 
+header("Location: views/home.php");
+
+?>
 session_start();
 //$_SESSION['user_id'] = 1;
 //$_SESSION['name']    = 'Admin';
