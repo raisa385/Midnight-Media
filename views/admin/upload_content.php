@@ -11,6 +11,9 @@
             <a href="?page=admin&action=moderators" class="nav-link">👥 Moderators</a>
             <a href="?page=admin&action=contents" class="nav-link active">🎬 Contents</a>
             <a href="?page=admin&action=requests" class="nav-link">📬 Requests</a>
+            <button class="nav-link theme-toggle" onclick="toggleTheme()" id="theme-btn">
+                ☀️ Light Mode
+            </button>
             <a href="?page=auth&action=logout" class="nav-link logout">🚪 Logout</a>
         </nav>
     </div>

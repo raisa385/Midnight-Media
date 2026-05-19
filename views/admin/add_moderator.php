@@ -11,6 +11,9 @@
             <a href="?page=admin&action=moderators" class="nav-link active">👥 Moderators</a>
             <a href="?page=admin&action=contents" class="nav-link">🎬 Contents</a>
             <a href="?page=admin&action=requests" class="nav-link">📬 Requests</a>
+            <button class="nav-link theme-toggle" onclick="toggleTheme()" id="theme-btn">
+                ☀️ Light Mode
+            </button>
             <a href="?page=auth&action=logout" class="nav-link logout">🚪 Logout</a>
         </nav>
     </div>
@@ -39,7 +42,7 @@
                     <label for="name">Full Name <span class="required">*</span></label>
                     <input type="text" id="name" name="name"
                            value="<?= htmlspecialchars($old['name']) ?>"
-                           class="form-input" placeholder="e.g. John Doe" required>
+                           class="form-input" placeholder="e.g. Hu Xie" required>
                     <span class="field-error" id="err-name"></span>
                 </div>
 
