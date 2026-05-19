@@ -4,7 +4,7 @@ $conn = mysqli_connect(
     "localhost",
     "root",
     "",
-    "ftp_server"
+    "midnightmedia_db"
 );
 
 if(!$conn)
