@@ -10,9 +10,9 @@
     if($conn->query($sql)===TRUE){mysqli_select_db($conn,$db);}
     else{die("Error selecting db: ".$conn->error);}
 
-    $sql = "CREATE TABLE users(
+    $sql = "CREATE TABLE IF NOT EXISTS users(
             id INT AUTO_INCREMENT PRIMARY KEY,
-            name, VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             password_hash VARCHAR(255) NOT NULL,
             userRole ENUM('admin','moderator'),
@@ -23,7 +23,7 @@
     if (mysqli_query($conn, $sql)) { echo "User table created successfully<br>";}
     else{echo "Error creating users table: " . mysqli_error($conn);} 
 
-    $sql = "CREATE TABLE categories(
+    $sql = "CREATE TABLE IF NOT EXISTS categories(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             parent_id INT DEFAULT NULL,
@@ -33,7 +33,7 @@
     if (mysqli_query($conn, $sql)) { echo "categories table created successfully<br>";}
     else{echo "Error creating categories table: " . mysqli_error($conn);} 
 
-    $sql = "CREATE TABLE contents(
+    $sql = "CREATE TABLE IF NOT EXISTS contents(
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             description TEXT,
@@ -41,13 +41,13 @@
             category_id INT,
             uploader_id INT,
             download_count INT DEFAULT 0,
-            uploaded_at TIMESTAMP CURRENT_TIMESTAMP
+            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             ";
     if (mysqli_query($conn, $sql)) { echo "contents table created successfully<br>";}
     else{echo "Error creating contents table: " . mysqli_error($conn);} 
 
-    $sql = "CREATE TABLE content_requests(
+    $sql = "CREATE TABLE IF NOT EXISTS content_requests(
             id INT AUTO_INCREMENT PRIMARY KEY,
             requester_ip VARCHAR(50) NOT NULL,
             content_title VARCHAR(255) NOT NULL,
@@ -66,7 +66,7 @@
                     (1,'Movies',NULL),
                     (2,'TV Series',NULL),
                     (3,'Softwares',NULL),
-                    (4,'Games',NULL),
+                    (4,'Games',NULL)
                     ";
 
         $addSubCat="INSERT INTO categories(id,name,parent_id) VALUES
@@ -77,7 +77,7 @@
                     (9,'Developer Tools',3),
                     (10,'Drawing Softwares',3),
                     (11,'RPG',4),
-                    (12,'Sports',4),
+                    (12,'Sports',4)
                     ";
         if (mysqli_query($conn, $addCat)) { echo "root categories added successfully<br>";}
         else{echo "Error adding root categories: " . mysqli_error($conn);}
@@ -103,7 +103,7 @@
     $check_users=mysqli_query($conn, "SELECT id FROM users LIMIT 1");
     if(mysqli_num_rows($check_users)==0){
         $pw=password_hash('admin1', PASSWORD_DEFAULT);
-        mysqli_query($conn, "INSERT INTO users(id,name,email,password_hash,userRole) VALUES(1,'RAISA','rr.anwar385@gmail.com',$pw,1");
+        mysqli_query($conn, "INSERT INTO users(id,name,email,password_hash,userRole) VALUES(1,'RAISA','rr.anwar385@gmail.com','$pw','admin')");
     }
 ?>
     

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/../../controllers/controlProfile.php';
+require_once '/Project/controllers/controlProfile.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,9 +28,9 @@ require_once __DIR__.'/../../controllers/controlProfile.php';
     <?php endif;?>
 
     <?php 
-        $pic_path="../../../public/uploads/contents/".$userData['profilePic'];
-        if(empty($userData['profilePic'])||!file_exists(_DIR_.'/'.$pic_path)){
-            $pic_src="../../../Projects/assets/defaultprofilepic.png"; 
+        $pic_path="/Project/public/uploads/contents/".$userData['profilePic'];
+        if(empty($userData['profilePic'])||!file_exists($_SERVER['DOCUMENT_ROOT'].$pic_path)){
+            $pic_src="/Project/assets/defaultprofilepic.png"; 
         }else{
             $pic_src=$pic_path;
         }
@@ -38,7 +38,7 @@ require_once __DIR__.'/../../controllers/controlProfile.php';
 
     <img src="<?=$pic_src;?>" class="avatar" alt="Profile Picture">
 
-    <form action="../../controllers/controlProfile.php" method="POST" enctype="multipart/form-data">
+    <form action="/Project/controllers/controlProfile.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="profilePic" accept="image/*" required><br> <!--accept only allows image type upload, other tpes are greyed out-->
         <button type="submit" class="btn">Upload photo</button>
     </form>
@@ -52,8 +52,8 @@ require_once __DIR__.'/../../controllers/controlProfile.php';
     <div class="info-group">
         <span class="label">Role:</span><?=htmlspecialchars($userData['userRole']);?>
     </div>
-    <a href="../../../homepageView.php" class="btn">Homepage</a>
-    <a href="../../../logout.php" class="btn">Logout</a>
+    <a href="/Project/views/viewHome.php" class="btn">Homepage</a>
+    <a href="/Project/logout.php" class="btn">Logout</a>
 </div>
 </body>
 </html>
