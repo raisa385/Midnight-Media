@@ -1,15 +1,15 @@
 <?php
 
 session_start();
-$_SESSION['user_id'] = 1;
-$_SESSION['name']    = 'Admin';
-$_SESSION['role']    = 'admin';
+//$_SESSION['user_id'] = 1;
+//$_SESSION['name']    = 'Admin';
+//$_SESSION['role']    = 'admin';
 
 require_once 'config/db.php';
 require_once 'controllers/AdminController.php';
-//require_once 'controllers/AuthController.php';
-//require_once 'controllers/ModeratorController.php';
-//require_once 'controllers/MemberController.php';
+require_once 'controllers/AuthController.php';
+require_once 'controllers/ModeratorController.php';
+require_once 'controllers/MemberController.php';
 
 $page   = $_GET['page']   ?? 'home';
 $action = $_GET['action'] ?? 'index';
