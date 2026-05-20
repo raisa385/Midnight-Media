@@ -1,4 +1,5 @@
 <?php
+    include_once __DIR__. "/../config/database.php";
     function getTopCats($conn){
         $stmt = $conn->prepare("SELECT id, name FROM categories WHERE parent_id IS NULL ORDER BY name");
         $stmt->execute();
@@ -26,18 +27,31 @@
         $stmt->close();
         return $data;
     }
-
-    function getAllContents($conn) {
-        $stmt = $conn->prepare("SELECT id, title, description, file_path, category_id, download_count, uploaded_at FROM contents ORDER BY uploaded_at DESC");
+    function searchContents($conn, $search_term, $category_id = 0) {
+        $like_term = '%' . $search_term . '%';
+        if($category_id == 0){
+            $stmt = $conn->prepare("SELECT * FROM contents WHERE title LIKE ? OR description LIKE ? ORDER BY uploaded_at DESC");
+            $stmt->bind_param("ss", $like_term, $like_term);
+        } else {
+        $stmt = $conn->prepare("SELECT * FROM contents WHERE (title LIKE ? OR description LIKE ?) AND category_id = ? ORDER BY uploaded_at DESC");
+        $stmt->bind_param("ssi", $like_term, $like_term, $category_id);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         $data = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
         return $data;
     }
-
+    function getAllContents($conn) {
+        $stmt = $conn->prepare("SELECT * FROM contents ORDER BY uploaded_at DESC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $data;
+    }
     function getContentsByCategory($conn, $category_id) {
-        $stmt = $conn->prepare("SELECT id, title, description, file_path, category_id, download_count, uploaded_at FROM contents WHERE category_id = ? ORDER BY uploaded_at DESC");
+        $stmt = $conn->prepare("SELECT * FROM contents WHERE category_id = ? ORDER BY uploaded_at DESC");
         $stmt->bind_param("i", $category_id);
         $stmt->execute();
         $result = $stmt->get_result();

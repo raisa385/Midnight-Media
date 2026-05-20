@@ -1,5 +1,23 @@
 <?php
+    include_once __DIR__. "/../config/database.php";
+    include_once __DIR__."/../controllers/controlHome.php";
+    include_once __DIR__."/../models/modelHome.php";
+
     $role = $_SESSION["userRole"] ?? "member"; //SESSION TO VERIFY ROLE
+    $selected_parent_id = null;
+    if (isset($_GET["category"]) && $category_id > 0) {
+        $selected_parent_id = getCategoryParentId($conn, $category_id);
+        if ($selected_parent_id === null) {
+            $contents = getContentsByParent($conn, $category_id);
+            if (isset($_GET["search"]) && !empty($search)) {
+                $contents = array_filter($contents, function($content) use ($search) {
+                    return stripos($content["title"], $search) !== false || stripos($content["description"], $search) !== false;
+                });
+            }
+        } else {
+            $sub_categories = getSubCats($conn, $selected_parent_id);
+        }
+    }
 ?>
 <!DOCTYPE html>
     <html>
@@ -31,7 +49,7 @@
             <p>
                 <a href="../controllers/controlHome.php" class="<?php echo !isset($_GET['category']) ? 'active' : ''; ?>">All</a>
                 <?php foreach ($categories as $cat){ 
-                    $current_parent = ($category_id > 0) ? (getCategoryParentId($conn, $category_id) ?? $category_id) : 0;
+                    $current_parent = (isset($_GET['category']) && $category_id > 0) ? ($selected_parent_id ?? $category_id) : 0;
                     $active = ($current_parent == $cat["id"]) ? 'active' : '';
                 ?>
                     <a href="../controllers/controlHome.php?category=<?php echo $cat["id"]; ?>" class="<?php echo $active; ?>">
@@ -53,8 +71,9 @@
                 </p>
             <?php } ?>
 
-        <form method="GET" action="../views/home.php">
-            <input type="text" name="search" id="searchBox" placeholder="search...">
+        <form method="GET" action="../controllers/controlHome.php">
+            <input type="text" name="search" id="searchBox" placeholder="Search by title or description" value="<?php echo htmlspecialchars($search); ?>">
+            <?php if (isset($_GET["category"])) { ?><input type="hidden" name="category" value="<?php echo $category_id; ?>"><?php } ?>
             <button type="submit">Search</button>
         </form>
 

@@ -1,37 +1,32 @@
 <?php
-    if(session_status() === PHP_SESSION_NONE){
+    include_once __DIR__. "/../config/database.php";
+    include_once __DIR__."/../models/modelHome.php";
+
+    if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
     if (!isset($_SESSION["csrf_token"])) {
         $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
     }
 
-    include __DIR__."/../config/db.php";
-    include __DIR__."/../models/modelHome.php";
-
-    $category_id = intval($_GET["category"] ?? 0);// 0 incase empty to prevent SQL injection, forces only ints into id 
-    $sub_categories = array();
-
-    if ($category_id > 0) {
-        $parent_id = getCategoryParentId($conn, $category_id);
-
-        if ($parent_id !== null) {
-            $sub_categories = getSubCats($conn, $parent_id);
-            $contents = getContentsByCategory($conn, $category_id);
-        } else {
-            $sub_categories = getSubCats($conn, $category_id);
-            if (count($sub_categories) > 0) {
-                $contents = getContentsByParent($conn, $category_id);
-            } else {
-                $contents = getContentsByCategory($conn, $category_id);
-            }
-        }
-    } else {
-        $contents = getAllContents($conn);
-    }
+    $category_id = intval($_GET["category"] ?? 0);
+    $search = trim($_GET["search"] ?? "");
 
     $categories = getTopCats($conn);
     $all_categories = getAllCats($conn);
+    $sub_categories = array();
 
-    include __DIR__ . "/../views/viewHome.php";
+    if(isset($_GET["search"]) && !empty($_GET["search"])){
+        $contents = searchContents($conn, $search, $category_id);
+    }
+    else if(isset($_GET["category"]) && $_GET["category"] > 0){
+        $contents = getContentsByCategory($conn, $category_id);
+    }else{
+        $contents = getAllContents($conn);
+    }
+    if ($category_id > 0) {
+        $sub_categories = getSubCats($conn, $category_id);
+    }
+
+    include_once __DIR__ . "/../views/viewHome.php";
 ?>

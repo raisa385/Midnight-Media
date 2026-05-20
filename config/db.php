@@ -1,5 +1,5 @@
 <?php
-    include __DIR__."/database.php";
+    include_once __DIR__."/database.php";
 
     function getDB(): PDO {
         static $pdo=null;
