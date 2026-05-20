@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.page-body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.main-heading {
+    margin-bottom: 24px;
+    color: #1a1a1a;
+    font-size: 28px;
+    text-align: center;
+}
+
+.message {
+    background-color: #ffeef0;
+    color: #d9383a;
+    border: 1px solid #fecdd3;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #4a0366;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #427ac8;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color:rgb(58, 1, 79);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #ea2ee6;
+}
+
+.text-container {
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.nav-link {
+    color: #222f44;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #6d8fed;
+    text-decoration: underline;
+}
+.profile-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+}

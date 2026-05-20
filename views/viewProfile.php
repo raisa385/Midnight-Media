@@ -1,59 +1,83 @@
 <?php
-require_once '/Project/controllers/controlProfile.php';
+    include __DIR__ . "/../controllers/controlProfile.php";
+
+    $pic_src = "../assets/defaultprofilepic.png";
+    if (!empty($userData["profilePic"]) && file_exists(__DIR__ . "/../public/uploads/" . $userData["profilePic"])) {
+        $pic_src = "../public/uploads/" . $userData["profilePic"];
+    }
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-    <style>
-        body{background-color:#0b0f19;color:#f8f9fa;font-family:Arial,sans-serif;padding:40px;}
-        .profile-container{background-color:#111827;border:1px solid #1f2937;border-radius:8px;padding:24px;max-width:500px;margin:0 auto;}
-        .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid #2563eb;margin-bottom:16px;}
-        .info-group{margin-bottom:12px;font-size:1rem;}
-        .label{color:#9ca3af;font-weight:bold;}
-        .btn{background-color:#2563eb;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;margin-top:10px;}
-        .btn:hover{background-color:#1d4ed8;}
-        .message{font-weight:bold;margin-bottom:15px;color:red;}
-        hr{border-color:#1f2937;margin:20px 0;}
-    </style>
-</head>
-<body>
-<div class="profile-container">
-    <h2>Staff Profile</h2>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Profile</title>
+        <link rel="stylesheet" href="../assets/loginstyle.css">
+    </head>
+    <body class="page-body">
+        <h2 class="main-heading">Profile</h2>
 
-    <?php if(isset($_SESSION['flash_msg'])):?>
-        <p class="message"><?=htmlspecialchars($_SESSION['flash_msg']);?></p>
-        <?php unset($_SESSION['flash_msg']);?>
-    <?php endif;?>
+        <?php if (isset($_SESSION["flash_msg"])) { ?>
+            <p class="message"><?php echo htmlspecialchars($_SESSION["flash_msg"]); ?></p>
+            <?php unset($_SESSION["flash_msg"]); ?>
+        <?php } ?>
 
-    <?php 
-        $pic_path="/Project/public/uploads/contents/".$userData['profilePic'];
-        if(empty($userData['profilePic'])||!file_exists($_SERVER['DOCUMENT_ROOT'].$pic_path)){
-            $pic_src="/Project/assets/defaultprofilepic.png"; 
-        }else{
-            $pic_src=$pic_path;
-        }
-    ?>
+        <img src="<?php echo $pic_src; ?>" class="profile-avatar" alt="Profile Picture" width="120" height="120"><br><br>
 
-    <img src="<?=$pic_src;?>" class="avatar" alt="Profile Picture">
+        <form class="form-container" action="../controllers/controlProfile.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION["csrf_token"]; ?>">
+            <input type="hidden" name="action" value="upload_picture">
+            <input type="file" name="profilePic" class="input-field"><br><br>
+            <button type="submit" class="submit-btn">Upload Picture</button>
+        </form><br>
 
-    <form action="/Project/controllers/controlProfile.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="profilePic" accept="image/*" required><br> <!--accept only allows image type upload, other tpes are greyed out-->
-        <button type="submit" class="btn">Upload photo</button>
-    </form>
-    <hr>
-    <div class="info-group">
-        <span class="label">Full Name:</span> <?=htmlspecialchars($userData['name']);?>
-    </div>
-    <div class="info-group">
-        <span class="label">Email Address:</span> <?=htmlspecialchars($userData['email']);?>
-    </div>
-    <div class="info-group">
-        <span class="label">Role:</span><?=htmlspecialchars($userData['userRole']);?>
-    </div>
-    <a href="/Project/views/viewHome.php" class="btn">Homepage</a>
-    <a href="/Project/logout.php" class="btn">Logout</a>
-</div>
-</body>
+        <form id="profileForm" class="form-container" action="../controllers/controlProfile.php" method="POST">
+            <h2 class="main-heading" style="font-size: 20px; margin-bottom: 16px;">Update Info</h2>
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION["csrf_token"]; ?>">
+            <input type="hidden" name="action" value="update_info">
+            <input type="text" name="name" id="name" class="input-field" value="<?php echo htmlspecialchars($userData["name"]); ?>"><br><br>
+            <input type="email" name="email" id="email" class="input-field" value="<?php echo htmlspecialchars($userData["email"]); ?>"><br><br>
+            <button type="submit" class="submit-btn">Update</button>
+        </form><br>
+
+        <form id="passwordForm" class="form-container" action="../controllers/controlProfile.php" method="POST">
+            <h2 class="main-heading" style="font-size: 20px; margin-bottom: 16px;">Change Password</h2>
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION["csrf_token"]; ?>">
+            <input type="hidden" name="action" value="change_password">
+            <input type="password" name="current_password" class="input-field" placeholder="Current Password"><br><br>
+            <input type="password" name="new_password" id="new_password" class="input-field" placeholder="New Password"><br><br>
+            <input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm Password"><br><br>
+            <button type="submit" class="submit-btn">Change Password</button>
+        </form>
+
+        <p class="text-container">
+            <a href="../controllers/controlHome.php" class="nav-link">Home</a> &nbsp;|&nbsp;
+            <a href="../logout.php" class="nav-link">Logout</a>
+        </p>
+
+        <script>
+        document.getElementById("profileForm").onsubmit = function() {
+            if (document.getElementById("name").value == "" || document.getElementById("email").value == ""){
+                alert("Name and email are required");
+                return false;
+            }
+            return true;
+        };
+
+        document.getElementById("passwordForm").onsubmit = function() {
+            var newPW = document.getElementById("new_password").value;
+            var confirmPW = document.getElementById("confirm_password").value;
+
+            if (newPW.length<8) {
+                alert("New password must be at least 8 characters long");
+                return false;
+            }
+
+            if (newPW!= confirmPW) {
+                alert("Passwords do not match");
+                return false;
+            }
+            return true;
+        };
+        </script>
+    </body>
 </html>
