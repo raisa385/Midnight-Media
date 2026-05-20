@@ -1,6 +1,6 @@
 <?php
     function getUserById($conn,$id){
-        $sql=$conn->prepare("SELECT id, name, email, password_hash, role, profilePic FROM users WHERE id = ?");
+        $sql=$conn->prepare("SELECT id, name, email, password_hash, userRole, profilePic FROM users WHERE id = ?");
         $sql->bind_param("i",$id);
         $sql->execute();
         $result=$sql->get_result();

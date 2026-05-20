@@ -9,7 +9,7 @@
     include __DIR__."/../config/db.php";
     include __DIR__."/../models/modelHome.php";
 
-    $category_id = intval($_GET["category"] ?? 0);
+    $category_id = intval($_GET["category"] ?? 0);// 0 incase empty to prevent SQL injection, forces only ints into id 
     $sub_categories = array();
 
     if ($category_id > 0) {
