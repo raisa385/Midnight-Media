@@ -12,7 +12,7 @@
 
         $email = trim($_POST["email"]);
         $password = $_POST["password"];
-
+        //server-side validation
         if ($email == "" || $password == "") {
             $_SESSION["flash_msg"] = "Please fill all fields";
             header("Location: ../views/viewLogin.php");
@@ -28,13 +28,12 @@
         }
 
         $_SESSION['user_id'] = $user["id"];
-        $_SESSION["userID"] = $user["id"];
         $_SESSION["name"] = $user["name"];
         $_SESSION["username"] = $user["name"];
         $_SESSION["userRole"] = $user["role"];
-
+    //setting cookie (just email)
         if (isset($_POST["remember"])) {
-            setcookie("remember", $user["email"], time() + (30*24*60*60), "/"); // '/' allows global acess
+            setcookie("remember", $user["email"], time() + (30*24*60*60), "/"); //'/' global access
         }
 
         if ($user["role"] == "admin") {

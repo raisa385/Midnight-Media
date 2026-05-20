@@ -2,8 +2,8 @@
 session_start();
 if (!isset($_SESSION["csrf_token"])) {
     $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
-}
-$remember_email = $_COOKIE["remember_email"] ?? "";
+}//cross site request forgery prevention
+$remember= $_COOKIE["remember"] ?? ""; 
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,14 +15,14 @@ $remember_email = $_COOKIE["remember_email"] ?? "";
 <body class="page-body">
     <h2 class="main-heading">Admin / Moderator Login</h2>
 
-    <?php if (isset($_SESSION["flash_msg"])) { ?>
+    <?php if (isset($_SESSION["flash_msg"])){?>
         <p class="message"><?php echo htmlspecialchars($_SESSION["flash_msg"]); ?></p>
         <?php unset($_SESSION["flash_msg"]); ?>
     <?php } ?>
 
     <form id="loginForm" class="form-container" action="../controllers/controlLogin.php" method="POST">
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION["csrf_token"]; ?>">
-        <input type="email" name="email" id="email" class="input-field" placeholder="Email" value="<?php echo htmlspecialchars($remember_email); ?>"><br><br>
+        <input type="email" name="email" id="email" class="input-field" placeholder="Email" value="<?php echo htmlspecialchars($remember); ?>"><br><br>
         <input type="password" name="password" id="password" class="input-field" placeholder="Password"><br><br>
         <label class="checkbox-label"><input type="checkbox" name="remember" class="checkbox-input" value="1"> Remember Me</label><br><br>
         <button type="submit" class="submit-btn">Login</button>

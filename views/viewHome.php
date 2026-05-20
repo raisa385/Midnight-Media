@@ -1,5 +1,5 @@
 <?php
-    $role = $_SESSION["userRole"] ?? "member";
+    $role = $_SESSION["userRole"] ?? "member"; //SESSION TO VERIFY ROLE
 ?>
 <!DOCTYPE html>
     <html>
@@ -19,7 +19,7 @@
                 <?php if($role == "admin") { ?><a href="../views/admin/dashboard.php">Admin Panel</a>
                 <a href="../views/viewProfile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
-                <?php }else if($role == "moderator") { ?>
+                <?php }else if($role == "moderator"){ ?>
                 <a href="../views/moderator/dashboard.php">Moderator Panel</a>
                 <a href="../views/viewProfile.php">Profile</a>
                 <a href="../logout.php">Logout</a>
