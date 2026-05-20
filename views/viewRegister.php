@@ -1,62 +1,65 @@
+<?php
+    session_start();
+    if(!isset($_SESSION["csrf_token"])){
+        $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
+    }
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="UTF-8">
         <title>Registration</title>
+        <link rel="stylesheet" href="../assets/loginstyle.css">
     </head>
-    <body>
-        <h2>Register</h2>
-        <?php if(isset($_SESSION['flash_msg'])):?>
-        <p style="color:red;"><?=htmlspecialchars($_SESSION['flash_msg']);?></p>
-        <?php endif;?>
-        <p id="JS_flash_msg" style="color:red display:none;"></p>
+    <body class="page-body">
+        <h2 class="main-heading">Register Admin / Moderator</h2>
 
-        <form id="registerForm" action="../controllers/controlRegister.php" method="POST">
-            <input type="text" id='name' name="name" placeholder="Name" required><br>
-            <input type="email" id='email'name="email" placeholder="Email" required><br>
-            <input type="password" id='password' name="password" placeholder="Password" required><br>
-            <label for="role">Choose your role</label>
-            <select id="userRole" name="userRole">
-                <option value="Admin">Apply for Admin Role</option>
-                <option value="Moderator">Apply for Moderator Role</option>
-            </select>
-            <button type="submit">Submit</button>
+        <?php if (isset($_SESSION["flash_msg"])) { ?>
+            <p class="message"><?php echo htmlspecialchars($_SESSION["flash_msg"]); ?></p>
+            <?php unset($_SESSION["flash_msg"]); ?>
+        <?php } ?>
+
+        <form id="registerForm" class="form-container" action="../controllers/controlRegister.php" method="POST">
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION["csrf_token"]; ?>">
+            <input type="text" id="name" name="name" class="input-field" placeholder="Name"><br><br>
+            <input type="email" id="email" name="email" class="input-field" placeholder="Email"><br><br>
+            <input type="password" id="password" name="password" class="input-field" placeholder="Password"><br><br>
+            <input type="password" id="confirm_password" name="confirm_password" class="input-field" placeholder="Confirm Password"><br><br>
+
+            <select id="role" name="role" class="input-field">
+                <option value="">Choose Role</option>
+                <option value="admin">Admin</option>
+                <option value="moderator">Moderator</option>
+            </select><br><br>
+
+            <button type="submit" class="submit-btn">Register</button>
         </form>
-        <p>Already registered? <a href="viewLogin.php">Login here</a></p>
+
+        <p class="text-container"><a href="viewLogin.php" class="nav-link">Login</a></p>
+        <p class="text-container"><a href="../controllers/controlHome.php" class="nav-link">Home</a></p>
 
         <script>
-            document.getElementById('registerForm').addEventListener('submit',function(event)){
-                const name= document.getElementById('name').value.trim();
-                const email= document.getElementById('email').value.trim();
-                const password= document.getElementById('password').value.trim();
-                const userRole= document.getElementById('userRole').value.trim();
-                const message= document.getElementById('JS_flash_msg').value.trim();
+        document.getElementById("registerForm").onsubmit = function() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            var role = document.getElementById("role").value;
 
-                if(password.length<8){
-                    event.preventDefault();
-                    message.innerText="Password length must be at least 8 characters";
-                    message.style.display='block';
-                    return;
-                }   
-        
-                if($name=='' || $email=='' || $password==''|| $userRole==''){
-                    event.preventDefault();
-                    message.innerText="Please fill all required fields";
-                    message.style.display='block';
-                    return;
-                }
-
-                const emailpattern = document.createElement('emailpattern');
-                emailpattern.type='email';
-                emailpattern.value=email;
-                if(emailpattern.checkValidity()==false){
-                    event.preventDefault();
-                    message.innerText="Please enter a valid email ";
-                    message.style.display='block';
-                    return;
-                }  
-                message.style.display='none';
+            if (name == "" || email == "" || password == "" || confirm_password == "" || role == "") {
+                alert("Please fill all fields");
+                return false;
             }
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters long");
+                return false;
+            }
+            if (password != confirm_password) {
+                alert("Passwords do not match");
+                return false;
+            }
+            return true;
+        };
         </script>
     </body>
 </html>

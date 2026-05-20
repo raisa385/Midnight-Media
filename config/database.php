@@ -1,39 +1,44 @@
 <?php
-    $db = 'midnightMedia_db';
-    $conn = new mysqli('localhost','root','','');
+    $db='midnightMedia_db';
+    define('DB_HOST','localhost');
+    define('DB_NAME','midnightMedia_db');
+    define('DB_USER','root');
+    define('DB_PASS','');
+
+    $conn=new mysqli(DB_HOST,DB_USER,DB_PASS);
     if($conn->connect_error){die("connection failed: ".$conn->connect_error);}
 
-    $sql = "CREATE DATABASE IF NOT EXISTS $db";
-    if ($conn->query($sql) === TRUE) {echo "Database created successfully<br>";} 
-    else{die("Error creating database: " . $conn->error);}
+    $sql="CREATE DATABASE IF NOT EXISTS $db";
+    if($conn->query($sql)===TRUE){} 
+    else{die("Error creating database: ".$conn->error);}
 
-    if($conn->query($sql)===TRUE){mysqli_select_db($conn,$db);}
+    if($conn->select_db($db)){}
     else{die("Error selecting db: ".$conn->error);}
 
-    $sql = "CREATE TABLE IF NOT EXISTS users(
+    $sql="CREATE TABLE IF NOT EXISTS users(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             password_hash VARCHAR(255) NOT NULL,
             userRole ENUM('admin','moderator'),
-            profilePic VARCHAR(255) DEFAULT 'D:\WT\pp\htdocs\Project\assets\png-transparent-default-avatar.png',
+            profilePic VARCHAR(255) DEFAULT 'defaultprofilepic.png',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             ";
-    if (mysqli_query($conn, $sql)) { echo "User table created successfully<br>";}
-    else{echo "Error creating users table: " . mysqli_error($conn);} 
+    if($conn->query($sql)){}
+    else{echo "Error creating users table: ".$conn->error;} 
 
-    $sql = "CREATE TABLE IF NOT EXISTS categories(
+    $sql="CREATE TABLE IF NOT EXISTS categories(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             parent_id INT DEFAULT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             ";
-    if (mysqli_query($conn, $sql)) { echo "categories table created successfully<br>";}
-    else{echo "Error creating categories table: " . mysqli_error($conn);} 
+    if($conn->query($sql)){}
+    else{echo "Error creating categories table: ".$conn->error;} 
 
-    $sql = "CREATE TABLE IF NOT EXISTS contents(
+    $sql="CREATE TABLE IF NOT EXISTS contents(
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             description TEXT,
@@ -44,10 +49,10 @@
             uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             ";
-    if (mysqli_query($conn, $sql)) { echo "contents table created successfully<br>";}
-    else{echo "Error creating contents table: " . mysqli_error($conn);} 
+    if($conn->query($sql)){}
+    else{echo "Error creating contents table: ".$conn->error;} 
 
-    $sql = "CREATE TABLE IF NOT EXISTS content_requests(
+    $sql="CREATE TABLE IF NOT EXISTS content_requests(
             id INT AUTO_INCREMENT PRIMARY KEY,
             requester_ip VARCHAR(50) NOT NULL,
             content_title VARCHAR(255) NOT NULL,
@@ -57,12 +62,12 @@
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             ";
-    if (mysqli_query($conn, $sql)) { echo "content request table created successfully<br>";}
-    else{echo "Error creating content request table: " . mysqli_error($conn);}
+    if($conn->query($sql)){}
+    else{echo "Error creating content request table: ".$conn->error;}
 
-    $check_categories= mysqli_query($conn, "SELECT id FROM categories LIMIT 1");
-    if(mysqli_num_rows($check_categories)==0){
-        $addCat = " INSERT INTO categories(id,name,parent_id) VALUES
+    $check_categories=$conn->query("SELECT id FROM categories LIMIT 1");
+    if($check_categories->num_rows==0){
+        $addCat="INSERT INTO categories(id,name,parent_id) VALUES
                     (1,'Movies',NULL),
                     (2,'TV Series',NULL),
                     (3,'Softwares',NULL),
@@ -79,14 +84,15 @@
                     (11,'RPG',4),
                     (12,'Sports',4)
                     ";
-        if (mysqli_query($conn, $addCat)) { echo "root categories added successfully<br>";}
-        else{echo "Error adding root categories: " . mysqli_error($conn);}
-        if (mysqli_query($conn, $addSubCat)) { echo "sub categories added successfully<br>";}
-        else{echo "Error adding sub categories: " . mysqli_error($conn);}
+        if($conn->query($addCat)){}
+        else{echo "Error adding root categories: ".$conn->error;}
+        if($conn->query($addSubCat)){}
+        else{echo "Error adding sub categories: ".$conn->error;}
     }
-    $check_contents= mysqli_query($conn, "SELECT id FROM contents LIMIT 1");
-    if(mysqli_num_rows($check_contents)==0){
-        $addContents = "INSERT INTO contents (title, description, file_path, category_id, uploader_id, download_count) VALUES
+
+    $check_contents=$conn->query("SELECT id FROM contents LIMIT 1");
+    if($check_contents->num_rows==0){
+        $addContents="INSERT INTO contents (title, description, file_path, category_id, uploader_id, download_count) VALUES
                         ('Spirited Away (2001) [1080p]', 'A sullen 10-year-old girl wanders into a world ruled by gods and spirits.', 'ftp://10.10.80.22/movies/ghibli/Spirited_Away_1080p.mkv', 5, 1, 1420),
                         ('The Lion King (1994) [4K]', 'Lion prince Simba and his father are targeted by his bitter uncle.', 'ftp://10.10.80.22/movies/disney/The_Lion_King_1994_4K.mkv', 6, 1, 985),
                         ('Attack on Titan [Season 4 Complete]', 'The final apocalyptic war reaches its ultimate conclusion.', 'ftp://10.10.80.22/tv/anime/AoT_S04_Complete_1080p.zip', 7, 1, 3410),
@@ -96,15 +102,13 @@
                         ('The Witcher 3: Next-Gen', 'Includes Hearts of Stone and Blood and Wine expansions.', 'ftp://10.10.80.24/games/rpg/The_Witcher_3_NextGen.rar', 11, 1, 2450),
                         ('EA Sports FC 26', 'HyperMotionV technology accurately captures real player movement.', 'ftp://10.10.80.24/games/sports/EA_Sports_FC_26_Repack.rar', 12, 1, 4120)
                         ";  
-        if (mysqli_query($conn, $addContents)) { echo "contents added successfully<br>";}
-        else{echo "Error adding contents: " . mysqli_error($conn);}
+        if($conn->query($addContents)){}
+        else{echo "Error adding contents: ".$conn->error;}
     }
 
-    $check_users=mysqli_query($conn, "SELECT id FROM users LIMIT 1");
-    if(mysqli_num_rows($check_users)==0){
-        $pw=password_hash('admin1', PASSWORD_DEFAULT);
-        mysqli_query($conn, "INSERT INTO users(id,name,email,password_hash,userRole) VALUES(1,'RAISA','rr.anwar385@gmail.com','$pw','admin')");
+    $check_users=$conn->query("SELECT id FROM users LIMIT 1");
+    if($check_users->num_rows==0){
+        $pw=password_hash('admin1',PASSWORD_DEFAULT);
+        $conn->query("INSERT INTO users(id,name,email,password_hash,userRole) VALUES(1,'RAISA','rr.anwar385@gmail.com','$pw','admin')");
     }
 ?>
-    
-

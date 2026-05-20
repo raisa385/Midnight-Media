@@ -2,11 +2,12 @@
 
 session_start();
 
-$_SESSION['role'] = 'moderator';
+
+$_SESSION['userRole'] = 'moderator';
 
 $_SESSION['user_id'] = 1;
 
-if(!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator'){
+if(!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator'){
     header("Location: ../../login.php");
 }
 
@@ -34,6 +35,8 @@ if(!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator'){
 <a href="contents.php">View Contents</a>
 
 <a href="requests.php">View Requests</a>
+
+<a href="../viewHome.php">Home</a>
 
 </body>
 </html>

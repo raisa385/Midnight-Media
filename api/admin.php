@@ -8,7 +8,7 @@ require_once __DIR__ . '/../models/Content.php';
 require_once __DIR__ . '/../models/User.php';
 
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['user_id']) || $_SESSION['userRole'] !== 'admin') {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;

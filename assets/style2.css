@@ -1,0 +1,129 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f4;
+    color: #15032b;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: rgb(18, 6, 68);
+}
+
+a {
+    display: inline-block;
+    background: rgb(18, 6, 68);
+    color: white;
+    padding: 8px 12px;
+    margin: 4px;
+    text-decoration: none;
+}
+
+a:hover {
+    background: rgb(70, 65, 162);
+}
+
+input, textarea, select {
+    width: 300px;
+    max-width: 100%;
+    padding: 8px;
+}
+
+textarea {
+    height: 80px;
+}
+
+button {
+    background: rgb(58, 1, 79);
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #aa44d2;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background: #ddd;
+}
+
+.box {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+.message {
+    color: red;
+    font-weight: bold;
+}
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: #1f2937;
+    color: white;
+    padding: 15px 20px;
+    margin: -20px -20px 20px -20px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-image {
+    height: 50px;
+    width: auto;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+.section-title {
+    margin: 0;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-list {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    background: #333;
+}
+
+.nav-link:hover {
+    background: #555;
+}
+
+/*login form*/

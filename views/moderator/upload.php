@@ -2,7 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator'){
+if(!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator'){
     header("Location: ../../login.php");
 }
 

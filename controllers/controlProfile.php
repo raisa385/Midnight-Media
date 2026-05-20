@@ -1,12 +1,16 @@
 <?php
     session_start();
-    if (!isset($_SESSION['userID'])) {
-        $_SESSION['flash_msg'] = "Please log in to view your profile."; //redirecting if they not logged in or session expired
-        header("Location: ../views/auth/viewLogin.php");
+
+    if (!isset($_SESSION["csrf_token"])){
+        $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
+    }
+    if (!isset($_SESSION['user_id'])) {
+        $_SESSION["flash_msg"] = "Please login first";
+        header("Location: ../views/viewLogin.php");
         exit();
     }
-    include '/Project/config/database.php';
-    require_once '/Project/models/modelProfile.php';
+    include __DIR__ . "/../config/database.php";
+    include __DIR__ . "/../models/modelProfile.php";
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profilePic'])){
         $file = $_FILES['profilePic'];
