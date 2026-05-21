@@ -2,46 +2,53 @@
 
 session_start();
 
+// Auth check
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator') {
+    header("Location: ../views/moderator/dashboard.php");
+    exit;
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    header("Location: ../views/moderator/contents.php");
+    exit;
+}
+
+// CSRF check
+if (empty($_POST['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+    die("Invalid request. Please go back and try again.");
+}
+
 include("../config/db.php");
 
-$id = $_GET['id'];
+$id = filter_input(INPUT_POST, 'content_id', FILTER_VALIDATE_INT);
+if (!$id) {
+    $_SESSION['flash'] = "Invalid content ID.";
+    header("Location: ../views/moderator/contents.php");
+    exit;
+}
 
 
-
-// Get File Path
-
-$get = "SELECT * FROM contents WHERE id=?";
-
-$stmt = mysqli_prepare($conn, $get);
-
-mysqli_stmt_bind_param($stmt, "i", $id);
-
+$stmt = mysqli_prepare($conn, "SELECT file_path FROM contents WHERE id=?");
+mysqli_stmt_bind_param($stmt, 'i', $id);
 mysqli_stmt_execute($stmt);
-
-$result = mysqli_stmt_get_result($stmt);
-
-$row = mysqli_fetch_assoc($result);
+$res  = mysqli_stmt_get_result($stmt);
+$row  = mysqli_fetch_assoc($res);
 
 
-
-// Delete File
-
-unlink($row['file_path']);
-
+$del = mysqli_prepare($conn, "DELETE FROM contents WHERE id=?");
+mysqli_stmt_bind_param($del, 'i', $id);
+mysqli_stmt_execute($del);
 
 
-// Delete Database Record
+if ($row && !empty($row['file_path'])) {
+    $fullPath = __DIR__ . '/../' . $row['file_path'];
+    if (file_exists($fullPath)) {
+        unlink($fullPath);
+    }
+}
 
-$sql = "DELETE FROM contents WHERE id=?";
-
-$stmt2 = mysqli_prepare($conn, $sql);
-
-mysqli_stmt_bind_param($stmt2, "i", $id);
-
-mysqli_stmt_execute($stmt2);
-
-
-
+$_SESSION['flash'] = "Content deleted successfully.";
 header("Location: ../views/moderator/contents.php");
-
-?>
+exit;
