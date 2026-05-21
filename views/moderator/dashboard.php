@@ -39,6 +39,7 @@ $pendingReqs    = mysqli_fetch_assoc(mysqli_query($conn,
 <h1>Midnight Media - Moderator Panel</h1>
 
 <div class="nav-links">
+    <a href="../../views/viewHome.php">Home</a>
     <a href="upload.php">Upload Content</a>
     <a href="contents.php">View Contents</a>
     <a href="requests.php">View Requests</a>

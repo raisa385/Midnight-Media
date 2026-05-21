@@ -158,7 +158,7 @@ function updateStatus(id, status) {
     document.querySelectorAll('#actions-' + id + ' button')
         .forEach(b => b.disabled = true);
 
-    fetch('../../api/update_request_ajax.php', {
+    fetch('../../api/update_request.php', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ csrf_token: CSRF, request_id: id, status: status })

@@ -3,7 +3,7 @@
 session_start();
 
 // Auth check
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator') {
+if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator') {
     header("Location: ../views/moderator/dashboard.php");
     exit;
 }
@@ -85,7 +85,7 @@ $filePath = 'public/uploads/contents/' . $filename;
 $stmt = mysqli_prepare($conn,
     "INSERT INTO contents (title, description, file_path, category_id, uploader_id)
      VALUES (?, ?, ?, ?, ?)");
-mysqli_stmt_bind_param($stmt, 'sssii', $title, $description, $filePath, $category-id, $uploader_id);
+mysqli_stmt_bind_param($stmt, 'sssii', $title, $description, $filePath, $category_id, $uploader_id);
 mysqli_stmt_execute($stmt);
 
 $_SESSION['flash'] = "'{$title}' uploaded successfully.";

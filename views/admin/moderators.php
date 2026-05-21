@@ -81,7 +81,7 @@ const CSRF_TOKEN = '<?= htmlspecialchars($csrf) ?>';
 function deleteModerator(id, name) {
     if (!confirm(`Delete moderator "${name}"? Their content will be reassigned to admin.`)) return;
 
-    fetch('api/admin.php?action=delete_moderator', {
+    fetch('/Project/api/admin.php?action=delete_moderator', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `moderator_id=${id}&csrf_token=${encodeURIComponent(CSRF_TOKEN)}`

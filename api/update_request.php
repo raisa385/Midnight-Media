@@ -6,7 +6,7 @@ session_start();
 header('Content-Type: application/json');
 
 // Auth check
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator') {
+if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator') {
     echo json_encode(['success' => false, 'message' => 'Unauthorized.']);
     exit;
 }

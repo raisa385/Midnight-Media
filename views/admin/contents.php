@@ -97,7 +97,7 @@ document.getElementById('content-search').addEventListener('input', function() {
 function deleteContent(id, title) {
     if (!confirm(`Delete "${title}"? This will permanently remove the file.`)) return;
 
-    fetch('api/admin.php?action=delete_content', {
+    fetch('/Project/api/admin.php?action=delete_content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `content_id=${id}&csrf_token=${encodeURIComponent(CSRF_TOKEN)}`

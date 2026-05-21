@@ -3,7 +3,7 @@
 session_start();
 
 // Auth check
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator') {
+if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator') {
     header("Location: ../views/moderator/dashboard.php");
     exit;
 }
