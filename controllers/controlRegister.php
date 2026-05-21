@@ -15,7 +15,7 @@
         $password = $_POST["password"];
         $confirm_password = $_POST["confirm_password"];
         $role = $_POST["role"];
-        if($name=="" || $email=="" || $password=="" || $confirm_password=="" || $role==""){
+        if($name=="" || $email==""|| $password==""|| $confirm_password==""|| $role==""){
             $_SESSION["flash_msg"] = "Please fill all fields";
             header("Location: ../views/viewRegister.php");
             exit();

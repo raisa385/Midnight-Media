@@ -2,13 +2,9 @@
 
 session_start();
 
-
-$_SESSION['userRole'] = 'moderator';
-
-$_SESSION['user_id'] = 1;
-
 if(!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator'){
-    header("Location: ../../login.php");
+    header("Location: ../viewLogin.php");
+    exit();
 }
 
 ?>
@@ -36,7 +32,7 @@ if(!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator'){
 
 <a href="requests.php">View Requests</a>
 
-<a href="../viewHome.php">Home</a>
+<a href="../../controllers/controlHome.php">Home</a>
 
 </body>
 </html>
