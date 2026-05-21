@@ -29,16 +29,15 @@
 
         $_SESSION['user_id'] = $user["id"];
         $_SESSION["name"] = $user["name"];
-        $_SESSION["username"] = $user["name"];
-        $_SESSION["userRole"] = $user["role"];
+        $_SESSION["userRole"] = $user["userRole"];
     //setting cookie (just email)
         if (isset($_POST["remember"])) {
             setcookie("remember", $user["email"], time() + (30*24*60*60), "/"); //'/' global access
         }
 
-        if ($user["role"] == "admin") {
-            header("Location: ../views/admin/dashboard.php");
-        }else{
+        if ($user["userRole"] == "admin") {
+            header("Location: ../index.php?page=admin&action=dashboard");
+        }else if($user["userRole"] == "moderator"){
             header("Location: ../views/moderator/dashboard.php");
         }
         exit();

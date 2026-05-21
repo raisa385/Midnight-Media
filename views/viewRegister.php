@@ -47,15 +47,18 @@
             var role = document.getElementById("role").value;
 
             if (name == "" || email == "" || password == "" || confirm_password == "" || role == "") {
-                alert("Please fill all fields");
+                $_SESSION["flash_msg"] = "Please fill all fields";
+                header("Location: ../views/viewRegister.php");
                 return false;
             }
             if (password.length < 8) {
-                alert("Password must be at least 8 characters long");
+                $_SESSION["flash_msg"] = "Password must be at least 8 characters long";
+                header("Location: ../views/viewRegister.php");
                 return false;
             }
             if (password != confirm_password) {
-                alert("Passwords do not match");
+                $_SESSION["flash_msg"] = "Passwords do not match";
+                header("Location: ../views/viewRegister.php");
                 return false;
             }
             return true;

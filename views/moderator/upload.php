@@ -2,9 +2,9 @@
 
 session_start();
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator') {
-    header("Location: ../../login.php");
-    exit;
+if(!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator'){
+    header("Location: ../viewLogin.php");
+    exit();
 }
 
 include("../../config/db.php");

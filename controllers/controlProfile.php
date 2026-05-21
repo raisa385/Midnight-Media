@@ -17,13 +17,13 @@
         
         if($file['error'] !== UPLOAD_ERR_OK){
             $_SESSION['flash_msg'] = "Error: couldn't upload file.";
-            header("Location: /Project/views/auth/viewProfile.php");
+            header("Location: /Project/views/viewProfile.php");
             exit();
         }
 
         if ($file['size'] > 2*1024*1024){
         $_SESSION['flash_msg'] = "File size must be under 2MB.";
-        header("Location: /Project/views/auth/viewProfile.php");
+        header("Location: /Project/views/viewProfile.php");
         exit();
     }
 
@@ -37,7 +37,7 @@
 
         if (!in_array($extension, $allowed_extensions)){
             $_SESSION['flash_msg'] = "Invalid file type. Only: JPG, JPEG or PNG";
-            header("Location: /Project/views/auth/viewProfile.php");
+            header("Location: /Project/views/viewProfile.php");
             exit();
         }
         $new_filename = "profilePic_" . $_SESSION['user_id']."_".time().".".$extension;
@@ -49,12 +49,12 @@
         $destination = $upload_dir.$new_filename;
 
         if (move_uploaded_file($file['tmp_name'], $destination)) {
-            updateProfilePicture($conn, $_SESSION['user_id'], $new_filename);
+            updateProfilePic($conn, $_SESSION['user_id'], $new_filename);
             $_SESSION['flash_msg'] = "Profile picture updated successfully";
         } else {
             $_SESSION['flash_msg'] = "Error: failed to save file";
         }
-        header("Location: /Project/views/auth/viewProfile.php");
+        header("Location: /Project/views/viewProfile.php");
         exit();
     }
 
@@ -76,6 +76,7 @@
                 exit();
             }
             if(updateProfile($conn, $_SESSION['user_id'], $name, $email)){
+                $_SESSION['name'] = $name;
                 $_SESSION['flash_msg'] = "Profile updated successfully";
             } else {
                 $_SESSION['flash_msg'] = "Error: failed to update profile";
@@ -112,5 +113,7 @@
                 $_SESSION['flash_msg'] = "Error: failed to change password";
             }
         }
+        header("Location: /Project/views/viewProfile.php");
+        exit();
     }
 ?>
