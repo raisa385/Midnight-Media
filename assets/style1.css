@@ -46,8 +46,10 @@ button {
 }
 .label-field{
     display: block;
+    width: 100%;
     margin-bottom: 6px;
     font-weight: bold;
+    text-align: left;
 }
 
 button:hover {
@@ -127,22 +129,4 @@ button:hover {
 
 .nav-link:hover {
     background: #555;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    margin-top: 15px;
-}
-
-th,
-td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background: #ddd;
 }

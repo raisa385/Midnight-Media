@@ -37,6 +37,7 @@ $flash = $flash ?? [];
             <a href="/Project/index.php?page=admin&action=moderators" class="nav-link">👥 Moderators</a>
             <a href="/Project/index.php?page=admin&action=contents" class="nav-link">🎬 Contents</a>
             <a href="/Project/index.php?page=admin&action=requests" class="nav-link">📬 Requests</a>
+            <a href="/Project/controllers/controlHome.php" class="nav-link">Home</a>
             <button class="nav-link theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode
             </button>
             <a href="/Project/logout.php" class="nav-link logout">🚪 Logout</a>

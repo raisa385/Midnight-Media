@@ -9,7 +9,7 @@
         $_SESSION["csrf_token"] = bin2hex(random_bytes(16));
     }
 
-    $category_id = intval($_GET["category"] ?? 0);
+    $category_id = intval($_GET["category"] ?? 0);//type casted
     $search = trim($_GET["search"] ?? "");
 
     $categories = getTopCats($conn);

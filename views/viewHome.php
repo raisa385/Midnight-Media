@@ -34,8 +34,7 @@ if (isset($_GET["category"]) && $category_id > 0) {
     <?php include_once __DIR__ . "/viewNav.php"; ?>
     <h2>Categories</h2>
     <p>
-        <a href="../controllers/controlHome.php"
-            class="<?php echo !isset($_GET['category']) ? 'active' : ''; ?>">All</a>
+        <a href="../controllers/controlHome.php" class="<?php echo !isset($_GET['category']) ? 'active' : ''; ?>">All</a>
         <?php foreach ($categories as $cat) {
             $current_parent = (isset($_GET['category']) && $category_id > 0) ? ($selected_parent_id ?? $category_id) : 0;
             $active = ($current_parent == $cat["id"]) ? 'active' : '';
@@ -102,8 +101,8 @@ if (isset($_GET["category"]) && $category_id > 0) {
                     <h3><?php echo htmlspecialchars($content["title"]); ?></h3>
                     <p><?php echo htmlspecialchars($content["description"]); ?></p>
                     <p>Category: <?php echo htmlspecialchars($content["category_name"] ?? ""); ?></p>
-                    <p>Downloads: <?php echo htmlspecialchars($content["download_count"]); ?></p>
-                    <a href="../controllers/downloadDummy.php?id=<?php echo $content["id"]; ?>">Download</a>
+                    <p id="downloadCount-<?php echo $content['id']; ?>">Downloads: <?php echo htmlspecialchars($content["download_count"]); ?></p>
+                    <button id="downloadBtn" onclick="updateCount(<?php echo $content['id']; ?>)">Download</button>
                 </div>
             <?php } ?>
         </div>
@@ -115,6 +114,21 @@ if (isset($_GET["category"]) && $category_id > 0) {
     <div>
         <a href="../views/home.php">Request Content</a>
     </div>
+    <script>
+        function updateCount(contentId) {
+            fetch('../controllers/controlDownloadCount.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+                body: 'content_id=' + contentId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('downloadCount-'+contentId).textContent='Downloads: '+data.download_count;
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -101,4 +101,22 @@
         $stmt->close();
         return $data;
     }
+
+    function getDownloadCount($conn, $content_id) {
+        $stmt = $conn->prepare("SELECT download_count FROM contents WHERE id = ?");
+        $stmt->bind_param("i", $content_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+        return $row ? $row['download_count'] : 0;
+    }
+
+    function updateDownloadCount($conn, $content_id) {
+        $stmt = $conn->prepare("UPDATE contents SET download_count = download_count + 1 WHERE id = ?");
+        $stmt->bind_param("i", $content_id);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
 ?>

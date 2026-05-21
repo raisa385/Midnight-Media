@@ -37,7 +37,9 @@ $rem_email= $_COOKIE["remember"] ?? "";
         var password = document.getElementById("password").value;
 
         if (email == "" || password == "") {
-            alert("Please fill in all fields.");
+            $_SESSION['flash_msg'] = "Please fill all fields";
+             header("Location: ../views/viewLogin.php");
+             exit();
             return false;
         }
         return true;
