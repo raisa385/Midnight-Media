@@ -9,7 +9,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'moderator') {
 
 include("../../config/db.php");
 
-$cats = mysqli_query($conn, "SELECT * FROM categories ORDER BY parent_id ASC, name ASC");
+$cats = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
 
 
 if (empty($_SESSION['csrf_token'])) {
