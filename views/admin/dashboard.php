@@ -1,7 +1,31 @@
 <?php
 // views/admin/dashboard.php
-// This is just HTML + PHP echo. No logic here.
-// All data ($stats, $topDownloaded, $flash) was prepared by AdminController.
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user_id']) || ($_SESSION['userRole'] ?? '') !== 'admin') {
+    header('Location: ../viewLogin.php');
+    exit();
+}
+
+if (!isset($stats) || !isset($topDownloaded)) {
+    require_once __DIR__ . '/../../models/Content.php';
+    require_once __DIR__ . '/../../models/User.php';
+
+    $contentModel = new Content();
+    $userModel = new User();
+
+    $stats = [
+        'total_contents' => $contentModel->countAll(),
+        'total_categories' => $contentModel->countCategories(),
+        'total_moderators' => $userModel->countModerators(),
+        'pending_requests' => $contentModel->countPendingRequests(),
+    ];
+    $topDownloaded = $contentModel->getTopDownloaded(5);
+}
+
+$flash = $flash ?? [];
 ?>
 <?php require __DIR__ . '/../layouts/header.php'; ?>
 
@@ -9,13 +33,13 @@
     <div class="admin-sidebar">
         <div class="sidebar-brand">🌙 Midnight Media</div>
         <nav class="sidebar-nav">
-            <a href="?page=admin&action=dashboard" class="nav-link active">📊 Dashboard</a>
-            <a href="?page=admin&action=moderators" class="nav-link">👥 Moderators</a>
-            <a href="?page=admin&action=contents" class="nav-link">🎬 Contents</a>
-            <a href="?page=admin&action=requests" class="nav-link">📬 Requests</a>
+            <a href="/Project/index.php?page=admin&action=dashboard" class="nav-link active">📊 Dashboard</a>
+            <a href="/Project/index.php?page=admin&action=moderators" class="nav-link">👥 Moderators</a>
+            <a href="/Project/index.php?page=admin&action=contents" class="nav-link">🎬 Contents</a>
+            <a href="/Project/index.php?page=admin&action=requests" class="nav-link">📬 Requests</a>
             <button class="nav-link theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Light Mode
             </button>
-            <a href="?page=auth&action=logout" class="nav-link logout">🚪 Logout</a>
+            <a href="/Project/logout.php" class="nav-link logout">🚪 Logout</a>
         </nav>
     </div>
 
@@ -54,8 +78,8 @@
         <!-- Quick Actions -->
         <div class="quick-actions">
             <h2>Quick Actions</h2>
-            <a href="?page=admin&action=upload" class="btn btn-primary">+ Upload Content</a>
-            <a href="?page=admin&action=add_moderator" class="btn btn-secondary">+ Add Moderator</a>
+            <a href="/Project/index.php?page=admin&action=upload" class="btn btn-primary">+ Upload Content</a>
+            <a href="/Project/index.php?page=admin&action=add_moderator" class="btn btn-secondary">+ Add Moderator</a>
         </div>
 
         <!-- Top Downloaded -->

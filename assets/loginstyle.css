@@ -22,10 +22,34 @@
     font-size: 28px;
     text-align: center;
 }
-
-.message {
+.username{
+    color: #1a1a1a;
+    font-size: 30px;
+    margin-bottom: 8px;
+    text-align:center;
+    font-weight: bold;
+}
+.role{
+    color: #350141;
+    font-size: 20px;
+    margin-bottom: 16px;
+    text-align:center;
+}
+.message1 {
     background-color: #ffeef0;
     color: #d9383a;
+    border: 1px solid #fecdd3;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 14px;
+    text-align: center;
+}
+.message2 {
+    background-color: #ffeef0;
+    color: #0c9d15;
     border: 1px solid #fecdd3;
     padding: 12px 16px;
     border-radius: 6px;
@@ -116,4 +140,13 @@
     border: 3px solid #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 16px;
+}
+
+.page-body .navbar {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.profile-body {
+    justify-content: flex-start;
 }

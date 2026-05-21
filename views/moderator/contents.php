@@ -3,7 +3,8 @@
 session_start();
 
 if(!isset($_SESSION['userRole']) || $_SESSION['userRole'] != 'moderator'){
-    header("Location: ../../login.php");
+    header("Location: ../viewLogin.php");
+    exit();
 }
 
 include("../../config/db.php");

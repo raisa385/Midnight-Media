@@ -11,7 +11,7 @@ class AdminController {
    
     private function requireAdmin(): void {
         if (!isset($_SESSION['user_id']) || $_SESSION['userRole'] !== 'admin') {
-            header('Location: ?page=auth&action=login');
+            header('Location: /Project/views/viewLogin.php');
             exit;
         }
     }

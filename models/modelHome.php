@@ -9,6 +9,15 @@
         return $data;
     }   
 
+    function getHighlights($conn) {
+        $stmt = $conn->prepare("SELECT * FROM contents  ORDER BY download_count DESC, uploaded_at DESC LIMIT 3");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $data;
+    }
+
     function getSubCats($conn, $parent_id){
         $stmt = $conn->prepare("SELECT id, name FROM categories WHERE parent_id = ? ORDER BY name");
         $stmt->bind_param("i", $parent_id);
