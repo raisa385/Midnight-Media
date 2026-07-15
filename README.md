@@ -52,3 +52,39 @@ Midnight Media is an FTP-style server application built for an Internet Service 
 ---
 
 ## Project Structure
+├── controllers/     # Request handling and business logic
+├── models/          # Database interaction
+├── views/           # HTML templates
+├── config/          # Configuration files
+└── public/
+└── uploads/
+└── contents/  # Uploaded media files
+
+---
+
+## Git Workflow
+
+- **Main branch** — Protected, no direct pushes
+- **Feature branches** — Each student works on a feature branch (e.g., `feature/task1-2353251-3`)
+- **Pull Requests** — Merge feature branches into `main` via PRs
+
+---
+
+## Team & Task Breakdown
+
+| Student ID | Task | Main Features |
+|------------|------|----------------|
+| `23-53251-31` | User Authentication | Authentication, Profile, Home, Category Navigation |
+| `23-54082-32` | Admin | Manage Moderators & Contents |
+| `23-54089-33` | Moderator | Manage Contents, View Requests |
+| `23-54716-34` | Member | Browse, Search, Request Content |
+
+---
+
+## Setup & Requirements
+
+- **PHP** with PDO/mysqli and prepared statements
+- **Server-side and client-side validation**
+- **Session management** for authenticated pages
+- **AJAX endpoints** return JSON
+- **File upload validation** (MIME type, size, extension)
